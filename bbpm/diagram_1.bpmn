@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1fi2bcm" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.4.0">
+  <bpmn:process id="Process_refund" name="Process Refund" isExecutable="true" camunda:versionTag="12">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_0ozbiyz</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0ozbiyz" sourceRef="StartEvent_1" targetRef="input_cr_number" />
+    <bpmn:serviceTask id="determine_eligibility" name="Determine Eligibility" camunda:type="external" camunda:topic="t_determine_eligibility">
+      <bpmn:incoming>Flow_0qjouve</bpmn:incoming>
+      <bpmn:outgoing>Flow_1evlue2</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_0lsvois">
+      <bpmn:incoming>Flow_1evlue2</bpmn:incoming>
+      <bpmn:outgoing>Flow_1xoz1k7</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0yvbqmh</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1evlue2" sourceRef="determine_eligibility" targetRef="Gateway_0lsvois" />
+    <bpmn:sequenceFlow id="Flow_1xoz1k7" name="Yes" sourceRef="Gateway_0lsvois" targetRef="CalculateRefund">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{isValid}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0yvbqmh" name="No" sourceRef="Gateway_0lsvois" targetRef="Activity_1fcyxpv">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{not isValid}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:userTask id="input_cr_number" name="Input CR Number">
+      <bpmn:incoming>Flow_0ozbiyz</bpmn:incoming>
+      <bpmn:outgoing>Flow_1cj22m9</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_1kh0xfv" sourceRef="Activity_1fcyxpv" targetRef="Event_10e6ww4" />
+    <bpmn:serviceTask id="Activity_1fcyxpv" name="Notify Owner" camunda:type="external" camunda:topic="t_notify">
+      <bpmn:incoming>Flow_0yvbqmh</bpmn:incoming>
+      <bpmn:incoming>Flow_03kjvlc</bpmn:incoming>
+      <bpmn:outgoing>Flow_1kh0xfv</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:businessRuleTask id="CalculateRefund" name="Calculate Refund" camunda:resultVariable="refund_amount" camunda:decisionRef="refund_amount" camunda:mapDecisionResult="singleEntry">
+      <bpmn:incoming>Flow_1xoz1k7</bpmn:incoming>
+      <bpmn:outgoing>Flow_15975hn</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:sequenceFlow id="Flow_03kjvlc" sourceRef="Activity_0hjnbvj" targetRef="Activity_1fcyxpv" />
+    <bpmn:endEvent id="Event_10e6ww4">
+      <bpmn:incoming>Flow_1kh0xfv</bpmn:incoming>
+      <bpmn:signalEventDefinition id="SignalEventDefinition_1xxct3g" signalRef="Signal_1pqqhli" />
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0qjouve" sourceRef="fetch_cr" targetRef="determine_eligibility" />
+    <bpmn:serviceTask id="fetch_cr" name="Fetch CR" camunda:type="external" camunda:topic="t_fetch_cr">
+      <bpmn:incoming>Flow_1cj22m9</bpmn:incoming>
+      <bpmn:outgoing>Flow_0qjouve</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_0hjnbvj" name="Issue Refund" camunda:type="external" camunda:topic="t_issue_refund">
+      <bpmn:incoming>Flow_15975hn</bpmn:incoming>
+      <bpmn:outgoing>Flow_03kjvlc</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_15975hn" sourceRef="CalculateRefund" targetRef="Activity_0hjnbvj" />
+    <bpmn:sequenceFlow id="Flow_1cj22m9" sourceRef="input_cr_number" targetRef="fetch_cr" />
+  </bpmn:process>
+  <bpmn:signal id="Signal_1pqqhli" name="Signal_2j2e4qr" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_refund">
+      <bpmndi:BPMNEdge id="Flow_0ozbiyz_di" bpmnElement="Flow_0ozbiyz">
+        <di:waypoint x="178" y="180" />
+        <di:waypoint x="240" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1evlue2_di" bpmnElement="Flow_1evlue2">
+        <di:waypoint x="630" y="167" />
+        <di:waypoint x="695" y="167" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1xoz1k7_di" bpmnElement="Flow_1xoz1k7">
+        <di:waypoint x="720" y="142" />
+        <di:waypoint x="720" y="120" />
+        <di:waypoint x="800" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="772" y="105" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0yvbqmh_di" bpmnElement="Flow_0yvbqmh">
+        <di:waypoint x="720" y="192" />
+        <di:waypoint x="720" y="280" />
+        <di:waypoint x="950" y="280" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="728" y="232" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1kh0xfv_di" bpmnElement="Flow_1kh0xfv">
+        <di:waypoint x="1050" y="280" />
+        <di:waypoint x="1142" y="280" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_03kjvlc_di" bpmnElement="Flow_03kjvlc">
+        <di:waypoint x="1000" y="160" />
+        <di:waypoint x="1000" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0qjouve_di" bpmnElement="Flow_0qjouve">
+        <di:waypoint x="480" y="174" />
+        <di:waypoint x="530" y="174" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15975hn_di" bpmnElement="Flow_15975hn">
+        <di:waypoint x="900" y="120" />
+        <di:waypoint x="950" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1cj22m9_di" bpmnElement="Flow_1cj22m9">
+        <di:waypoint x="340" y="174" />
+        <di:waypoint x="380" y="174" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_1dvvp96_di" bpmnElement="CalculateRefund">
+        <dc:Bounds x="800" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_057omla_di" bpmnElement="input_cr_number">
+        <dc:Bounds x="240" y="134" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="142" y="162" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0lsvois_di" bpmnElement="Gateway_0lsvois" isMarkerVisible="true">
+        <dc:Bounds x="695" y="142" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0mmbc5o_di" bpmnElement="Activity_0hjnbvj">
+        <dc:Bounds x="950" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0dircpf_di" bpmnElement="Event_10e6ww4">
+        <dc:Bounds x="1142" y="262" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1mnbngp_di" bpmnElement="Activity_1fcyxpv">
+        <dc:Bounds x="950" y="240" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0r1v148_di" bpmnElement="determine_eligibility">
+        <dc:Bounds x="530" y="127" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_14obs63_di" bpmnElement="fetch_cr">
+        <dc:Bounds x="380" y="134" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

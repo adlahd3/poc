@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="Definitions_1v2sl88" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.4.0">
+  <decision id="refund_amount" name="MC Refund Amount">
+    <decisionTable id="DecisionTable_1nb3597" hitPolicy="FIRST">
+      <input id="Input_1" label="is_odd" biodi:width="192" camunda:inputVariable="is_odd">
+        <inputExpression id="InputExpression_1" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0mte9qr" label="is_valid" biodi:width="192" camunda:inputVariable="yes">
+        <inputExpression id="LiteralExpression_1uqu3nt" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="refund_amount" name="refund_amount" typeRef="integer" biodi:width="192" />
+      <rule id="DecisionRule_1ui2lbe">
+        <inputEntry id="UnaryTests_155t3mp">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_10s9su4">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0rsrz41">
+          <text>8000</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1pdzmej">
+        <inputEntry id="UnaryTests_078x60w">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0mwrldg">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_15kjfvu">
+          <text>1200</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1kqavj5">
+        <inputEntry id="UnaryTests_0uekh25">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_12tc253">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1bao1tt">
+          <text>0</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="refund_amount">
+        <dc:Bounds height="80" width="180" x="240" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
