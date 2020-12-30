@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: the-refund-app
+spec:
+  selector:
+    matchLabels:
+      app: refund
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: refund
+    spec:
+      containers:
+      - name: cr
+        image: cr:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 9000
+      - name: elig
+        image: elig:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 9001
+      - name: refund
+        image: refund:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 9002
+      - name: notif
+        image: notif:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 9003

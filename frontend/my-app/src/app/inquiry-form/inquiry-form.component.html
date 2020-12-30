@@ -1,0 +1,36 @@
+<h1>استعلم عن أحقية الاسترداد النقدي</h1>
+
+<form [formGroup]="crFormGroup" (ngSubmit)="onSubmit()">
+<label>
+   ادخل السجل التجاري
+    <input type="text" name="crN" (keyup)="OnInput($event)" required minlength="5" formControlName="crInputControl">
+    <p>
+        استخدم الأرقام ١٢٣٤٥، ٦٧٨٩٠ للتجربة
+    </p>
+</label>
+<br />
+<button type="submit" class="btn btn-primary" [disabled]="btnDisabled">استعلم</button>
+<div [hidden]="!btnDisabled" class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</form>
+
+<div [hidden]="hideResult">
+    <hr />
+    <div *ngIf="isValid" class="alert alert-success" role="alert">
+        <p>
+            الأحقية {{ isValid ? "نعم" : "لا" }}
+        </p>
+        <p>
+            مبلغ الاسترداد {{ amount }} ريال سعودي.
+        </p>
+    </div>
+
+    <div *ngIf="!isValid" class="alert alert-danger" role="alert">
+        <p>
+            عذراً لا تنطبق على سجلك التجاري معايير الاسترداد النقدي
+        </p>
+    </div>
+
+
+</div>

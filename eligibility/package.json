@@ -1,0 +1,17 @@
+{
+  "name": "eligibility",
+  "version": "1.0.0",
+  "description": "Eligibility Module. Part of Camunda PoC. ",
+  "main": "determine_eligibility.js",
+  "dependencies": {
+    "camunda-external-task-client-js": "2.0.0",
+    "axios": "0.21.0",
+    "sqlite3": "5.0.0",
+    "config": "3.3.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Adel Alahmed",
+  "license": "ISC"
+}

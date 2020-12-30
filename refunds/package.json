@@ -1,0 +1,16 @@
+{
+  "name": "refunds",
+  "version": "1.0.0",
+  "description": "Refund Handling Microservice. As part of Camunda PoC.",
+  "main": "process_refund.js",
+  "dependencies": {
+    "camunda-external-task-client-js": "2.0.0",
+    "sqlite3": "5.0.0",
+    "config": "3.3.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Adel A Alahmed",
+  "license": "ISC"
+}
